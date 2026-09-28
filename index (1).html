@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <meta charset="utf-8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <?!= include('style'); ?>
+</head>
+<body>
+  <div class="wrap">
+
+    <header>
+      <div class="road"><span class="car">🚗</span></div>
+      <h1>Parkiran Atas vs Bawah</h1>
+      <p>Pendapatmu bantu kami cari tahu mana yang lebih nyaman ✨</p>
+
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="tabForm" onclick="pindahTab('tabForm')">📝 Isi Survey</button>
+        <button class="tab-btn" data-tab="tabDashboard" onclick="pindahTab('tabDashboard')">📊 Dashboard</button>
+      </div>
+    </header>
+
+    <!-- ===== TAB 1: BORANG SURVEY ===== -->
+    <section id="tabForm" class="tab-panel">
+      <div class="card" id="cardForm">
+        <form id="surveyForm">
+          <div class="field">
+            <label class="title">Nama (opsional)</label>
+            <input type="text" id="nama" placeholder="Boleh dikosongin kalau mau anonim">
+          </div>
+
+          <div class="field">
+            <label class="title">Kamu lebih suka parkir di mana?</label>
+            <div class="choice-row">
+              <div class="choice" data-value="Atas" onclick="pilihPreferensi(this)">⬆️ Parkiran Atas</div>
+              <div class="choice" data-value="Bawah" onclick="pilihPreferensi(this)">⬇️ Parkiran Bawah</div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="title">Kenapa? (boleh pilih lebih dari satu)</label>
+            <div class="chips" id="chipsAlasan"></div>
+            <input type="text" id="alasanLain" placeholder="Alasan lain (kalau ada)..." style="margin-top:10px;display:none;">
+          </div>
+
+          <div class="field">
+            <label class="title">Kasih rating Parkiran Atas</label>
+            <div class="stars" data-target="ratingAtas"></div>
+          </div>
+
+          <div class="field">
+            <label class="title">Kasih rating Parkiran Bawah</label>
+            <div class="stars" data-target="ratingBawah"></div>
+          </div>
+
+          <div class="field">
+            <label class="title">Saran tambahan (opsional)</label>
+            <textarea id="saran" placeholder="Misalnya: lampu di area bawah kurang terang..."></textarea>
+          </div>
+
+          <button type="submit" class="submit" id="btnSubmit">Kirim Jawaban 🎀</button>
+          <div class="msg" id="msg"></div>
+        </form>
+      </div>
+
+      <div class="success" id="successBox">
+        <div class="check">🎉</div>
+        <h2>Makasih banyak!</h2>
+        <p>Jawabanmu udah tersimpan dan bakal bantu banget buat perbaikan area parkir.</p>
+      </div>
+    </section>
+
+    <!-- ===== TAB 2: DASHBOARD ===== -->
+    <section id="tabDashboard" class="tab-panel" style="display:none;">
+      <div class="stat-grid" id="statGrid">
+        <div class="stat"><div class="num" id="numTotal">0</div><div class="label">Total Responden</div></div>
+        <div class="stat"><div class="num" id="numAtas">0</div><div class="label">Pilih Atas</div></div>
+        <div class="stat"><div class="num" id="numBawah">0</div><div class="label">Pilih Bawah</div></div>
+        <div class="stat"><div class="num" id="numRating">-</div><div class="label">Rata² Rating (A / B)</div></div>
+      </div>
+
+      <div class="winner-banner" id="winnerBanner">Menghitung hasil...</div>
+
+      <div class="grid2">
+        <div class="card">
+          <h3>Preferensi Peserta</h3>
+          <canvas id="chartPref" height="220"></canvas>
+        </div>
+        <div class="card">
+          <h3>Rata-rata Rating</h3>
+          <canvas id="chartRating" height="220"></canvas>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <h3>Alasan Terbanyak Dipilih</h3>
+        <canvas id="chartAlasan" height="200"></canvas>
+      </div>
+
+      <div class="card">
+        <h3>Masukan Terbaru</h3>
+        <div id="commentList"><div class="empty">Belum ada masukan.</div></div>
+      </div>
+
+      <button class="refresh" onclick="muatData()">🔄 Muat Ulang Data</button>
+    </section>
+
+  </div>
+
+  <?!= include('app'); ?>
+</body>
+</html>
